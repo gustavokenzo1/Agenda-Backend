@@ -27,6 +27,10 @@ router.delete("/user/:id", ensureAuthenticated, (req, res) => {
   userController.deleteUser(req, res);
 });
 
+router.post("/user/login", (req, res) => {
+  userController.loginUser(req, res);
+});
+
 // Contact Routes
 const contactController = new ContactController();
 

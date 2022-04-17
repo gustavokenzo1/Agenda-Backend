@@ -71,4 +71,24 @@ export default class UserController {
       return res.status(400).json({ error: "Erro ao deletar usuário" });
     }
   };
+
+  loginUser = async (req: Request, res: Response) => {
+    const { email, password } = req.body;
+
+    try {
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        return res.status(400).json({ error: "Usuário não encontrado" });
+      }
+
+      if (!(await bcrypt.compare(password, user.password))) {
+        return res.status(400).json({ error: "Senha incorreta" });
+      }
+
+      return res.status(200).json({ user });
+    } catch (error) {
+      return res.status(400).json({ error: "Erro ao logar usuário" });
+    }
+  }
 }
